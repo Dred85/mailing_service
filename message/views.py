@@ -26,7 +26,7 @@ class MessageCreateView(CreateView):
     }
 
     def get_success_url(self):
-        return reverse('client:client_list')
+        return reverse('message:message_list')
 
 
 class MessageUpdateView(UpdateView):
