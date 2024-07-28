@@ -1,0 +1,23 @@
+
+{% extends 'client/base.html' %}
+{% block content %}
+<div class="col-6">
+    <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">{{object.first_name}} {{object.last_name}}</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <th scope="row"> Email </th>
+                    <td> {{ object.email }} </td>
+                </tr>
+                <tr>
+                    <th scope="row"> Комментарий </th>
+                    <td> {{ object.comment }} </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
