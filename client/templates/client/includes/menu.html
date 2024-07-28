@@ -1,4 +1,3 @@
-
 <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
     <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
         <span class="fs-3"> Рассылка </span>
@@ -8,17 +7,7 @@
         <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'client:client_list' %}">Клиенты</a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'message:message_list' %}">Сообщения</a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'mailing:settings_list' %}">Рассылки</a>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                Создать
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="{% url 'client:client_create' %}">Клиент</a></li>
-                <li><a class="dropdown-item" href="{% url 'message:message_create' %}">Сообщение</a></li>
-                <li><a class="dropdown-item" href="{% url 'mailing:settings_create' %}">Рассылка</a></li>
-            </ul>
-        </div>
+
     </nav>
 
 </div>
