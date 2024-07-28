@@ -1,24 +1,28 @@
-
 {% extends 'client/base.html' %}
 {% block content %}
-{% for object in object_list %}
-<div class="col">
-    <div class="card mb-4 rounded-3 shadow-sm">
-        <div class="card-header py-3">
-            <h4 class="my-0 fw-normal">{{object.first_name}} {{object.last_name}}</h4>
-        </div>
-        <div class="card-body">
-            <h3 class="card-title pricing-card-title">{{ object.email }}</h3><br>
-            <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <a href="{% url 'client:client_detail' object.pk %}" type="button"
-                   class="w-100 btn btn-outline-success">Открыть</a>
-                <a href="{% url 'client:client_update' object.pk %}" type="button"
-                   class="w-100 btn btn-outline-warning">Редактировать</a>
-                <a href="{% url 'client:client_delete' object.pk %}" type="button"
-                   class="w-100 btn btn-outline-danger">Удалить</a>
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">Список клиентов</div>
+                    <div class="card-body">
+                        <a href="{% url 'client:client_create' %}" class="btn btn-primary">Создать нового клиента</a>
+                        </div>
+    {% for object in object_list %}
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">{{ object.first_name }} {{ object.last_name }}</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title">{{ object.email }}</h3><br>
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <a href="{% url 'client:client_detail' object.pk %}" class="w-100 btn btn-outline-success">Открыть</a>
+                    <a href="{% url 'client:client_update' object.pk %}" class="w-100 btn btn-outline-warning">Редактировать</a>
+                    <a href="{% url 'client:client_delete' object.pk %}" class="w-100 btn btn-outline-danger">Удалить</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% endfor %}
-{% endblock %}
+    {% endfor %}
+{% endblock content %}
