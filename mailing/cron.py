@@ -1,4 +1,3 @@
-
 import smtplib
 from datetime import datetime, timedelta
 
@@ -37,7 +36,9 @@ def handle_mailing(mailing):
     mailing.first_mailing_date += timedelta(days=days_count)
     mailing.save()
 
+
 def send_mailing_scheduled():
+    """Отправка сообщений по расписанию"""
     now = datetime.now()
     before = now + timedelta(minutes=5)
     after = now - timedelta(minutes=5)
