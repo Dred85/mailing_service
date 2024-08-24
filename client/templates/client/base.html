@@ -7,22 +7,10 @@
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-        .bd-placeholder-img {
-          font-size: 1.125rem;
-          text-anchor: middle;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          user-select: none;
-        }
-
-        @media (min-width: 768px) {
-          .bd-placeholder-img-lg {
-            font-size: 3.5rem;
-          }
-        }
-    </style>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
 
 </head>
@@ -37,20 +25,49 @@
         </div>
     </header>
 
-    <main>
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-            {% block content %}
-            {% endblock %}
+    {% block content %}
+    {% endblock %}
 
-        </div>
-    </main>
+
+    <nav class="pagination">
+        {% for p in paginator.page_range %}
+        <a href="?page={{ p }}">{{ p }}</a>
+        {% endfor %}
+    </nav>
+
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
             <div class="col-12 col-md">
-                <small class="d-block mb-3 text-muted">&copy; 2024</small>
+                mailing services
+                <small class="d-block mb-3 text-muted">&copy; 2024 - {% now 'Y' %}</small>
+            </div>
+            <div class="col-4 col-md">
+                <h5>Компания</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="#">О компании</a></li>
+                    <li><a class="text-muted" href="#">Новости</a></li>
+                    <li><a class="text-muted" href="#">Партнерам</a></li>
+                    <li><a class="text-muted" href="#">Вакансии</a></li>
+                    <li><a class="text-muted" href="#">Правила продаж</a></li>
+                </ul>
+            </div>
+            <div class="col-4 col-md">
+                <h5>Дополнительно</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="#">Мы пишем</a></li>
+                </ul>
+            </div>
+            <div class="col-4 col-md">
+                <h5>О нас</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="#">Контакты</a></li>
+                </ul>
             </div>
         </div>
     </footer>
+</div>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </div>
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>

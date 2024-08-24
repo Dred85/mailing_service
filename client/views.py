@@ -7,6 +7,7 @@ from client.models import Client
 
 class ClientListView(ListView):
     model = Client
+    paginate_by = 2
     extra_context = {
         'title': 'Клиенты'
     }
