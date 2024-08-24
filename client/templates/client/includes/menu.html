@@ -1,13 +1,17 @@
 <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-        <span class="fs-3"> Cервис управления рассылками </span>
-    </a>
+    <div class="nav-item dropdown fs-3">
+        <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">Сервис управления рассылками</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="{% url 'client:client_list' %}">Клиенты</a>
+            <a class="dropdown-item" href="{% url 'message:message_list' %}">Сообщения</a>
+            <a class="dropdown-item" href="{% url 'mailing:settings_list' %}">Рассылки</a>
+        </div>
+    </div>
 
     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
         <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'client:client_list' %}">Клиенты</a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'message:message_list' %}">Сообщения</a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'mailing:settings_list' %}">Рассылки</a>
-
     </nav>
-
 </div>
