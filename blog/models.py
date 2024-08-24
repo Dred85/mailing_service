@@ -1,19 +1,24 @@
 from django.db import models
-
-from client.models import NULLABLE
+from django.utils.text import slugify
 
 
 class Blog(models.Model):
-    title = models.CharField(max_length=150, verbose_name='заголовок')
-    body = models.TextField(verbose_name='Содержимое')
-    preview = models.ImageField(upload_to='blog/', **NULLABLE, verbose_name='Изображение')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
-    is_published = models.BooleanField(default=True, verbose_name='опубликовано')
-    views_count = models.IntegerField(default=0, verbose_name='просмотры')
+    title = models.CharField(max_length=200)
+    slug = models.CharField(max_length=200, default=" ", unique=True)
+    content = models.TextField(default="Введите содержание поста здесь.")
+    preview_image = models.ImageField(default='blog_previews/default.jpg', upload_to='blog_previews/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_published = models.BooleanField(default=True)
+    views_count = models.PositiveIntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Blog, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.title}'
+        return self.title
 
     class Meta:
-        verbose_name = 'блог'
-        verbose_name_plural = 'блоги'
+        verbose_name = "Статья"
+        verbose_name_plural = "Статьи"
