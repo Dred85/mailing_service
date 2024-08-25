@@ -8,21 +8,36 @@ from django.views.generic import (
 from django.urls import reverse_lazy
 from blog.models import Blog
 
+from django.core.exceptions import PermissionDenied
+
 from django.urls import reverse
 from pytils.translit import slugify
 
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-class BlogCreateView(CreateView):
+from mailing.forms import SettingsForm, MailingModeratorForm
+
+
+class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Blog
     fields = (
         "title",
         "content",
         "preview_image",
-        # "created_at",
         "is_published",
         "views_count",
     )
     success_url = reverse_lazy("blog:blog_list")
+    permission_required = "blog.blog_list"
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return SettingsForm
+        if user.has_perm("can_view_mailing") and user.has_perm("can_view_users") and user.has_perm(
+                "can_blocked_users") and user.has_perm("can_disabled_mailing"):
+            return MailingModeratorForm
+        raise PermissionDenied
 
     def form_valid(self, form):
         if form.is_valid():
@@ -32,7 +47,7 @@ class BlogCreateView(CreateView):
         return super().form_valid(form)
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Blog
     fields = (
         "title",
@@ -41,6 +56,16 @@ class BlogUpdateView(UpdateView):
         "is_published",
         "views_count",
     )
+    permission_required = "blog.blog_list"
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return SettingsForm
+        if user.has_perm("can_view_mailing") and user.has_perm("can_view_users") and user.has_perm(
+                "can_blocked_users") and user.has_perm("can_disabled_mailing"):
+            return MailingModeratorForm
+        raise PermissionDenied
 
     # success_url = reverse_lazy('blog:list')
 
@@ -50,7 +75,6 @@ class BlogUpdateView(UpdateView):
             new_blog.slug = slugify(new_blog.title)
             new_blog.save()
         return super().form_valid(form)
-
 
     def get_success_url(self):
         return reverse("blog:view", args=[self.kwargs.get("pk")])
@@ -77,6 +101,7 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Blog
+    permission_required = "mailing.settings_list"
     success_url = reverse_lazy("blog:blog_list")

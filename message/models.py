@@ -15,14 +15,12 @@ class Message(models.Model):
         on_delete=models.SET_NULL,
     )
 
-
-
     class Meta:
         verbose_name = 'сообщение'
         verbose_name_plural = 'сообщения'
         permissions = [
-            ("can_edit_subject", "can_edit_subject"),
-            ("can_edit_text", "can_edit_text"),
+            ("can_view_subject_message", "can_view_subject_message"),
+            ("can_view_text_message", "can_view_text_message"),
         ]
 
     def __str__(self):

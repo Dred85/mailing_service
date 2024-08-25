@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'null': True, 'blank': True}
 
 
@@ -21,12 +23,27 @@ class Settings(models.Model):
     message = models.OneToOneField('message.Message', on_delete=models.CASCADE, verbose_name='сообщение', **NULLABLE)
     client = models.ManyToManyField('client.Client', verbose_name='клиент', **NULLABLE)
 
+    owner = models.ForeignKey(
+        User,
+        verbose_name="владелец",
+        help_text="Укажите владельца рассылки",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+
     def __str__(self):
         return f'{self.first_mailing_date}'
 
     class Meta:
         verbose_name = 'настройки'
         verbose_name_plural = 'настройки'
+        permissions = [
+            ("can_view_mailing", "can_view_mailing"),
+            ("can_view_users", "can_view_users"),
+            ("can_blocked_users", "can_blocked_users"),
+            ("can_disabled_mailing", "can_disabled_mailing"),
+        ]
 
 
 class Attempt(models.Model):
