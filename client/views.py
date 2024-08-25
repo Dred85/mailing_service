@@ -20,16 +20,9 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
     permission_required = "mailing.settings_list"
 
 
-class ClientCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     fields = ('first_name', 'last_name', 'email', 'comment', 'owner')
-
-    permission_required = (
-        "mailing.can_view_mailing",
-        "mailing.can_view_users",
-        "mailing.can_blocked_users",
-        "mailing.can_disabled_mailing",
-    )
 
     extra_context = {
         'title': 'Форма по добавлению'

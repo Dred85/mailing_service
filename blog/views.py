@@ -8,17 +8,13 @@ from django.views.generic import (
 from django.urls import reverse_lazy
 from blog.models import Blog
 
-from django.core.exceptions import PermissionDenied
-
 from django.urls import reverse
 from pytils.translit import slugify
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-
-from mailing.forms import SettingsForm, MailingModeratorForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     fields = (
         "title",
@@ -28,16 +24,6 @@ class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         "views_count",
     )
     success_url = reverse_lazy("blog:blog_list")
-    permission_required = "blog.blog_list"
-
-    def get_form_class(self):
-        user = self.request.user
-        if user == self.object.owner:
-            return SettingsForm
-        if user.has_perm("can_view_mailing") and user.has_perm("can_view_users") and user.has_perm(
-                "can_blocked_users") and user.has_perm("can_disabled_mailing"):
-            return MailingModeratorForm
-        raise PermissionDenied
 
     def form_valid(self, form):
         if form.is_valid():
@@ -47,7 +33,7 @@ class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
     fields = (
         "title",
@@ -56,16 +42,7 @@ class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         "is_published",
         "views_count",
     )
-    permission_required = "blog.blog_list"
 
-    def get_form_class(self):
-        user = self.request.user
-        if user == self.object.owner:
-            return SettingsForm
-        if user.has_perm("can_view_mailing") and user.has_perm("can_view_users") and user.has_perm(
-                "can_blocked_users") and user.has_perm("can_disabled_mailing"):
-            return MailingModeratorForm
-        raise PermissionDenied
 
     # success_url = reverse_lazy('blog:list')
 
@@ -101,7 +78,6 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
-    permission_required = "mailing.settings_list"
     success_url = reverse_lazy("blog:blog_list")

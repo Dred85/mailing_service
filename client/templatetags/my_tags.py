@@ -58,12 +58,12 @@ def generate_fake_mail(length: int = "10"):
 
 # Создание фильтра
 @register.filter
-def last_five_contacts(query_set):
+def last_3_blogs(query_set):
     number = len(query_set)
-    if number <= 5:
+    if number <= 3:
         return query_set
     else:
-        return query_set[number - 5 : number + 1]
+        return query_set[number - 3 : number + 1]
 
 
 @register.filter()

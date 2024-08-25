@@ -4,7 +4,7 @@
 {% load static %}
 {% block  content %}
 <div class="container mb-2 mt-2">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and perms.blog.add_blog %}
     <a class="btn btn-primary" href="{% url 'blog:create' %}" role="button">Добавить статью</a>
     {% endif %}
 
@@ -23,7 +23,7 @@
                     <div class="btn-group">
                         <a class="btn btn-success" href="{% url 'blog:view' object.pk %}" role="button">Посмотреть</a>
 
-                        {% if perms.blog.add_blogpost or user == object.owner %}
+                        {% if perms.blog.add_blog %}
                         <a class="btn btn-warning" href="{% url 'blog:edit' object.pk %}"
                            role="button">Изменить</a>
 
