@@ -16,7 +16,7 @@ import random
 import string
 
 from django.contrib.auth.hashers import make_password
-from django.http import JsonResponse
+
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -86,7 +86,7 @@ class PasswordResetView(View):
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=True,
-                # fail_silently=False,
+
             )
             return redirect(reverse("users:login"))
         except Exception as e:

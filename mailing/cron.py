@@ -1,8 +1,8 @@
 import smtplib
 from datetime import datetime, timedelta
 
-from django.core.mail import send_mail
 
+from django.core.mail import send_mail
 from config import settings
 from mailing.models import Settings, Attempt
 
@@ -13,7 +13,7 @@ def send_mailing_email(mailing_item: Settings):
             f'{mailing_item.message}',
             f'{mailing_item.message.text}',
             settings.EMAIL_HOST_USER,
-            recipient_list=[client.email for client in mailing_item.client.all()],
+            [client.email for client in mailing_item.client.all()],
             fail_silently=False,
         )
         attempt = Attempt.objects.create(status='успешно', mailing=mailing_item)
