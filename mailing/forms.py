@@ -10,9 +10,9 @@ class SettingsForm(forms.ModelForm):
     class Meta:
         model = Settings
         fields = ["first_mailing_date",
-                  "frequency", "status", "message", "client", "owner"]
+                  "frequency", "status", "message", "client", "owner",  "is_active"]
 
 class MailingModeratorForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Settings
-        fields = ["message", "client", "owner"]
+        fields = ["is_active"]

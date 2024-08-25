@@ -23,6 +23,8 @@ class Settings(models.Model):
     message = models.OneToOneField('message.Message', on_delete=models.CASCADE, verbose_name='сообщение', **NULLABLE)
     client = models.ManyToManyField('client.Client', verbose_name='клиент', **NULLABLE)
 
+    is_active = models.BooleanField(default=True, verbose_name='активна')
+
     owner = models.ForeignKey(
         User,
         verbose_name="владелец",

@@ -36,8 +36,14 @@ class SettingsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
 
 class SettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Settings
-    permission_required = "mailing.message_list"
-    fields = ('first_mailing_date', 'frequency', 'status', 'message', 'client',)
+    form_class = SettingsForm
+    fields = ('first_mailing_date', 'frequency', 'status', 'message', 'client', 'is_active')
+    permission_required = (
+        "mailing.can_view_mailing",
+        "mailing.can_view_users",
+        "mailing.can_blocked_users",
+        "mailing.can_disabled_mailing",
+    )
     extra_context = {
         'title': 'Форма по редактированию'
     }
