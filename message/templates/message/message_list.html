@@ -1,32 +1,36 @@
-
 {% extends 'client/base.html' %}
 {% block content %}
 <div class="col-12">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">Список сообщений</div>
-                    <div class="card-body">
-                        <a href="{% url 'message:message_create' %}" class="btn btn-primary">Создать новое сообщение</a>
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">Список сообщений</div>
+                <div class="card-body">
+                    <a href="{% url 'message:message_create' %}" class="btn btn-primary">Создать новое сообщение</a>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 {% for object in object_list %}
+
 <div class="col">
     <div class="card mb-4 rounded-3 shadow-sm">
         <div class="card-header py-3">
+            {% if user == object.owner or perms.mailing.can_view_mailing %}
             <h4 class="my-0 fw-normal">{{object.subject}}</h4>
+            {% endif %}
         </div>
         <div class="card-body">
             <div class="btn-group" role="group" aria-label="Basic outlined example">
+                {% if user == object.owner %}
                 <a href="{% url 'message:message_detail' object.pk %}" type="button"
                    class="w-100 btn btn-outline-success">Открыть</a>
                 <a href="{% url 'message:message_update' object.pk %}" type="button"
                    class="w-100 btn btn-outline-warning">Редактировать</a>
                 <a href="{% url 'message:message_delete' object.pk %}" type="button"
                    class="w-100 btn btn-outline-danger">Удалить</a>
+                {% endif %}
             </div>
         </div>
     </div>

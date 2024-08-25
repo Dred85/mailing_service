@@ -12,7 +12,7 @@ class ClientListView(LoginRequiredMixin, ListView):
     }
 
 
-class ClientDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Client
     extra_context = {
         'title': 'Клиент'
@@ -22,12 +22,24 @@ class ClientDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 
 class ClientCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Client
-    fields = ('first_name', 'last_name', 'email', 'comment',)
+    fields = ('first_name', 'last_name', 'email', 'comment', 'owner')
+
+    permission_required = (
+        "mailing.can_view_mailing",
+        "mailing.can_view_users",
+        "mailing.can_blocked_users",
+        "mailing.can_disabled_mailing",
+    )
+
     extra_context = {
         'title': 'Форма по добавлению'
     }
-    permission_required = "mailing.settings_list"
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
+
+    # permission_required = "mailing.settings_list"
 
     def get_success_url(self):
         return reverse('client:client_list')
@@ -35,19 +47,35 @@ class ClientCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
 class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Client
-    permission_required = "mailing.settings_list"
-    fields = ('first_name', 'last_name', 'email', 'comment',)
+
+    permission_required = (
+        "mailing.can_view_mailing",
+        "mailing.can_view_users",
+        "mailing.can_blocked_users",
+        "mailing.can_disabled_mailing",
+    )
+    fields = ('first_name', 'last_name', 'email', 'comment', 'owner')
     extra_context = {
         'title': 'Форма по редактированию'
     }
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('client:client_detail', args=[self.kwargs.get('pk')])
 
 
-class ClientDeleteView(LoginRequiredMixin,PermissionRequiredMixin, DeleteView):
+class ClientDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Client
-    permission_required = "mailing.settings_list"
+
+    permission_required = (
+        "mailing.can_view_mailing",
+        "mailing.can_view_users",
+        "mailing.can_blocked_users",
+        "mailing.can_disabled_mailing",
+    )
     extra_context = {
         'title': 'Удаление клиента'
     }

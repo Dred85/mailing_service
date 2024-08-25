@@ -7,6 +7,7 @@ from mailing.forms import MailingModeratorForm, SettingsForm
 from mailing.models import Settings
 from django.core.exceptions import PermissionDenied
 
+
 class SettingsListView(LoginRequiredMixin, ListView):
     model = Settings
     extra_context = {
@@ -22,13 +23,18 @@ class SettingsDetailView(LoginRequiredMixin, DetailView):
     }
 
 
-class SettingsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class SettingsCreateView(LoginRequiredMixin, CreateView):
     model = Settings
-    fields = ('first_mailing_date', 'frequency', 'status', 'message', 'client',)
+    form_class = SettingsForm
+
     extra_context = {
         'title': 'Форма по добавлению'
     }
-    permission_required = "mailing.message_list"
+
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('mailing:settings_list')
@@ -37,7 +43,7 @@ class SettingsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
 class SettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Settings
     form_class = SettingsForm
-    fields = ('first_mailing_date', 'frequency', 'status', 'message', 'client', 'is_active')
+
     permission_required = (
         "mailing.can_view_mailing",
         "mailing.can_view_users",
@@ -63,7 +69,14 @@ class SettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
 
 class SettingsDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Settings
-    permission_required = "mailing.message_list"
+    form_class = SettingsForm
+
+    permission_required = (
+        "mailing.can_view_mailing",
+        "mailing.can_view_users",
+        "mailing.can_blocked_users",
+        "mailing.can_disabled_mailing",
+    )
 
     def get_form_class(self):
         user = self.request.user

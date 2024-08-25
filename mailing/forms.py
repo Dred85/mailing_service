@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django import forms
 
 from .mixins import StyledFormMixin

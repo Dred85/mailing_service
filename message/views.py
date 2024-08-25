@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView, C
 
 from message.models import Message
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class MessageListView(LoginRequiredMixin, ListView):
@@ -13,41 +13,43 @@ class MessageListView(LoginRequiredMixin, ListView):
     }
 
 
-class MessageDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class MessageDetailView(LoginRequiredMixin, DetailView):
     model = Message
     extra_context = {
         'title': 'Сообщение'
     }
-    permission_required = "mailing.settings_list"
 
 
-class MessageCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     fields = ('subject', 'text',)
+
     extra_context = {
         'title': 'Форма по добавлению'
     }
-    permission_required = "mailing.settings_list"
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('message:message_list')
 
 
-class MessageUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
     model = Message
     fields = ('subject', 'text',)
     extra_context = {
         'title': 'Форма по редактированию'
     }
-    permission_required = "mailing.message_list"
 
     def get_success_url(self):
         return reverse('message:message_detail', args=[self.kwargs.get('pk')])
 
 
-class MessageDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
-    permission_required = "mailing.message_list"
+
     extra_context = {
         'title': 'Удаление сообщения'
     }
