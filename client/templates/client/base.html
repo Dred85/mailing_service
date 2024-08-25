@@ -1,5 +1,7 @@
-<!doctype html>
+{% load my_tags %}
 {% load static %}
+
+<!doctype html>
 <html lang="en">
 <head>
 
@@ -24,6 +26,10 @@
             <h1 class="display-4 fw-normal">{{ title }}</h1>
         </div>
     </header>
+    <p class="lead">
+    <div style="color: red">{% count_mailing %}</div>
+    <div style="color: red">Вас ждут СКИДКИ и ПОДАРКИ</div>
+    </p>
 
     {% block content %}
     {% endblock %}

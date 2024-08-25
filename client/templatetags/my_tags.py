@@ -6,7 +6,7 @@ import string
 
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
-
+from mailing.models import Settings
 register = template.Library()
 
 
@@ -17,19 +17,11 @@ def current_time(format_string):
 
 
 @register.simple_tag
-def time_happy_b():
-    now = datetime.datetime.today()
-    present_year = now.year
+def count_mailing():
+    """ Подсчет общего количества рассылок"""
+    count_mailing = Settings.objects.count()
+    return f"У нас самый лучший сервис! Количество рассылок сейчас {count_mailing}"
 
-    if now > datetime.datetime(present_year, 11, 11):
-        present_year += 1
-
-    eleven_eleven = datetime.datetime(present_year, 11, 11)
-    d = eleven_eleven - now  # str(d)  '83 days, 2:43:10.517807'
-    mm, ss = divmod(d.seconds, 60)
-    hh, mm = divmod(mm, 60)
-
-    return "День рождения магазина Electron 08.11 осталось: {} дней".format(d.days)
 
 
 # Создание фильтра
