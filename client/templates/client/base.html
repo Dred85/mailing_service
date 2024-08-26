@@ -30,12 +30,12 @@
     <div style="color: red">{% count_clients_uniq %}</div>
 
     <section>
-        <h2>Три случайные статьи:</h2>
+        <h5>Три случайные статьи:</h5>
         <ul>
             {% get_random_3_blogs as random_blogs %}
             {% for blog in random_blogs %}
             <li>
-                <h3>{{ blog.title }}</h3>
+                <h6>{{ blog.title }}</h6>
                 <p>{{ blog.content|truncatewords:20 }}</p>
                 <a href="{% url 'blog:view' blog.id %}"> Читать далее </a>
 
