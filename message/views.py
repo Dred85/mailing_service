@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class MessageListView(LoginRequiredMixin, ListView):
     model = Message
+    paginate_by = 3
     extra_context = {
         'title': 'Сообщения'
     }

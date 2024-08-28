@@ -10,6 +10,7 @@ from django.core.exceptions import PermissionDenied
 
 class SettingsListView(LoginRequiredMixin, ListView):
     model = Settings
+    paginate_by = 3
     extra_context = {
         'title': 'Рассылки'
     }

@@ -6,17 +6,12 @@ from config import settings
 from django.core.mail import send_mail
 from config import settings
 from mailing.models import Settings, Attempt
+from message.models import Message
 
 
 def send_mailing_email(mailing_item: Settings):
     try:
 
-        # send_mail(
-        #     "Удачи тебе, друг мой!",
-        #     f"Удачи тебе, друг мой!",
-        #     settings.DEFAULT_FROM_EMAIL,
-        #     ["adrolv@rambler.ru"],
-        #     fail_silently=True)
         send_mail(
             f'{mailing_item.message}',
             f'{mailing_item.message.text}',
@@ -26,6 +21,7 @@ def send_mailing_email(mailing_item: Settings):
             # [client.email for client in mailing_item.client.all()],
             fail_silently=False,
         )
+
         attempt = Attempt.objects.create(status='успешно', mailing=mailing_item)
     except smtplib.SMTPException as e:
         attempt = Attempt.objects.create(status='не успешно', mailing=mailing_item, server_response=e)
