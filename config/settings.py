@@ -161,9 +161,8 @@ if CACHE_ENABLED:
         }
     }
 
+
+
 CRONJOBS = [
     ('* * * * *', 'mailing.cron.send_mailing_scheduled')
 ]
-# CRONJOBS = [
-#     ('*/5 * * * *', 'mailing.cron.send_mailing_scheduled')
-# ]

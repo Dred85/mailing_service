@@ -1,6 +1,7 @@
 import smtplib
 from datetime import datetime, timedelta
 
+from config import settings
 
 from django.core.mail import send_mail
 from config import settings
@@ -9,11 +10,20 @@ from mailing.models import Settings, Attempt
 
 def send_mailing_email(mailing_item: Settings):
     try:
+
+        # send_mail(
+        #     "Удачи тебе, друг мой!",
+        #     f"Удачи тебе, друг мой!",
+        #     settings.DEFAULT_FROM_EMAIL,
+        #     ["adrolv@rambler.ru"],
+        #     fail_silently=True)
         send_mail(
             f'{mailing_item.message}',
             f'{mailing_item.message.text}',
-            settings.EMAIL_HOST_USER,
-            [client.email for client in mailing_item.client.all()],
+            settings.DEFAULT_FROM_EMAIL,
+            ["adrolv@rambler.ru"],
+            # settings.EMAIL_HOST_USER,
+            # [client.email for client in mailing_item.client.all()],
             fail_silently=False,
         )
         attempt = Attempt.objects.create(status='успешно', mailing=mailing_item)
@@ -53,3 +63,11 @@ def send_mailing_scheduled():
 
     for mailing in mailing_list:
         handle_mailing(mailing)
+
+# def my_scheduled_job():
+#     send_mail(
+#         "Удачи тебе, друг мой!",
+#         f"Удачи тебе, друг мой!",
+#         settings.DEFAULT_FROM_EMAIL,
+#         ["adrolv@rambler.ru"],
+#         fail_silently=True)
