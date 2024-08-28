@@ -1,6 +1,7 @@
 import smtplib
 from datetime import datetime, timedelta
 
+from client.models import Client
 from config import settings
 
 from django.core.mail import send_mail
@@ -11,14 +12,14 @@ from message.models import Message
 
 def send_mailing_email(mailing_item: Settings):
     """Отправка сообщения клиентам"""
-
-    for mailing in mailing_item.client.all():
+    clients = Client.objects.all()
+    for mailing in  clients:
         try:
             send_mail(
                 f'{mailing_item.message}',
                 f'{mailing_item.message.text}',
                 settings.DEFAULT_FROM_EMAIL,
-                [mailing],
+                [mailing.email],
                 fail_silently=False,
             )
 
