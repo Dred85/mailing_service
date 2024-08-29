@@ -13,7 +13,7 @@ from message.models import Message
 def send_mailing_email(mailing_item: Settings):
     """Отправка сообщения клиентам"""
     clients = Client.objects.all()
-    for mailing in  clients:
+    for mailing in clients:
         try:
             send_mail(
                 f'{mailing_item.message}',
@@ -31,9 +31,6 @@ def send_mailing_email(mailing_item: Settings):
         attempt.save()
         mailing_item.status = 'запущена'
         mailing_item.save()
-
-
-
 
     # try:
     #
@@ -84,13 +81,3 @@ def send_mailing_scheduled():
 
     for mailing in mailing_list:
         handle_mailing(mailing)
-
-# def my_scheduled_job():
-#     send_mail(
-#         "Удачи тебе, друг мой!",
-#         f"Удачи тебе, друг мой!",
-#         settings.DEFAULT_FROM_EMAIL,
-#         ["adrolv@rambler.ru"],
-#         fail_silently=True)
-
-
