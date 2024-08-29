@@ -4,16 +4,26 @@
 
 {% block content %}
 <div class="col-12">
+
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <br><br>
+                <div class="row">
+                    <div class="col-4">
+                        <div style="color: red">{% count_mailing %}</div>
+                    </div>
+                    <div class="col-4">
+                        <div style="color: red">{% count_mailing_activ %}</div>
+                    </div>
+                    <div class="col-4">
+                        <div style="color: red">{% count_clients_uniq %}</div>
+                    </div>
+                </div>
 
-                <p class="lead">
-                <div style="color: red">{% count_mailing %}</div>
-                <div style="color: red">{% count_mailing_activ %}</div>
-                <div style="color: red">{% count_clients_uniq %}</div>
 
                 <section>
+                    <br>
                     <h5>Три случайные статьи:</h5>
                     <ul>
                         {% get_random_3_blogs as random_blogs %}
