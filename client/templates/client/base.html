@@ -16,7 +16,6 @@
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
 
-
 </head>
 <body>
 
@@ -32,11 +31,63 @@
     {% endblock %}
 
 
-    <nav class="pagination">
-        {% for p in paginator.page_range %}
-        <a href="?page={{ p }}">{{ p }}</a>
-        {% endfor %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if paginator.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ paginator.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+
+            {% for p in paginator.page_range %}
+            {% if p == page_obj.number %}
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ p }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if paginator.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ paginator.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
     </nav>
+
+    <style>
+    .pagination {
+        margin: 20px 0;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .page-link {
+        color: #007bff;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .page-link:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+
+    .page-item {
+        margin: 0 5px;
+    }
+</style>
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
@@ -69,8 +120,6 @@
         </div>
     </footer>
 </div>
-
-
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
