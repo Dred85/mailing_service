@@ -1,7 +1,12 @@
+{% load static %}
+
+
 <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-    <div class="nav-item dropdown fs-3">
-        <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">Сервис управления рассылками</a>
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Сервис управления рассылками
+        </a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
             <a class="dropdown-item" href="{% url 'client:client_list' %}">Клиенты</a>
             <a class="dropdown-item" href="{% url 'message:message_list' %}">Сообщения</a>

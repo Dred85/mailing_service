@@ -4,6 +4,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from client.models import Client
 
 
+class HomeView(ListView):
+    model = Client
+    template_name = "client/home.html"
+
 class ClientListView(LoginRequiredMixin, ListView):
     model = Client
     paginate_by = 2
