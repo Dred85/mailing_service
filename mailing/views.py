@@ -1,11 +1,10 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from mailing.forms import MailingModeratorForm, SettingsForm
+from mailing.forms import SettingsForm
 from mailing.models import Settings
-from django.core.exceptions import PermissionDenied
 
 
 class SettingsListView(LoginRequiredMixin, ListView):
@@ -23,6 +22,11 @@ class SettingsDetailView(LoginRequiredMixin, DetailView):
         'title': 'Рассылка'
     }
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object'] = self.object  # объект Settings
+        return context
+
 
 class SettingsCreateView(LoginRequiredMixin, CreateView):
     model = Settings
@@ -32,7 +36,6 @@ class SettingsCreateView(LoginRequiredMixin, CreateView):
         'title': 'Форма по добавлению'
     }
 
-
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
         return super().form_valid(form)
@@ -41,7 +44,7 @@ class SettingsCreateView(LoginRequiredMixin, CreateView):
         return reverse('mailing:settings_list')
 
 
-class SettingsUpdateView(LoginRequiredMixin,  UpdateView):
+class SettingsUpdateView(LoginRequiredMixin, UpdateView):
     model = Settings
     form_class = SettingsForm
 
@@ -49,15 +52,13 @@ class SettingsUpdateView(LoginRequiredMixin,  UpdateView):
         'title': 'Форма по редактированию'
     }
 
-
     def get_success_url(self):
-        return reverse('mailing:settings_detail', args=[self.kwargs.get('pk')])
+        return reverse('mailing:settings_list', args=[self.kwargs.get('pk')])
 
 
 class SettingsDeleteView(LoginRequiredMixin, DeleteView):
     model = Settings
     form_class = SettingsForm
-
 
     extra_context = {
         'title': 'Удаление рассылки'
