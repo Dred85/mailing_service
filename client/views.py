@@ -45,12 +45,6 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
 
-    # permission_required = (
-    #     "mailing.can_view_mailing",
-    #     "mailing.can_view_users",
-    #     "mailing.can_blocked_users",
-    #     "mailing.can_disabled_mailing",
-    # )
     fields = ('first_name', 'last_name', 'email', 'comment', 'owner')
     extra_context = {
         'title': 'Форма по редактированию'
