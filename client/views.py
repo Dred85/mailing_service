@@ -42,15 +42,15 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
         return reverse('client:client_list')
 
 
-class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
 
-    permission_required = (
-        "mailing.can_view_mailing",
-        "mailing.can_view_users",
-        "mailing.can_blocked_users",
-        "mailing.can_disabled_mailing",
-    )
+    # permission_required = (
+    #     "mailing.can_view_mailing",
+    #     "mailing.can_view_users",
+    #     "mailing.can_blocked_users",
+    #     "mailing.can_disabled_mailing",
+    # )
     fields = ('first_name', 'last_name', 'email', 'comment', 'owner')
     extra_context = {
         'title': 'Форма по редактированию'
@@ -64,15 +64,11 @@ class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         return reverse('client:client_detail', args=[self.kwargs.get('pk')])
 
 
-class ClientDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class ClientDeleteView(LoginRequiredMixin,  DeleteView):
     model = Client
 
-    permission_required = (
-        "mailing.can_view_mailing",
-        "mailing.can_view_users",
-        "mailing.can_blocked_users",
-        "mailing.can_disabled_mailing",
-    )
+
+
     extra_context = {
         'title': 'Удаление клиента'
     }
