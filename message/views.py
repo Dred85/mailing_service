@@ -13,6 +13,11 @@ class MessageListView(LoginRequiredMixin, ListView):
         'title': 'Сообщения'
     }
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sort_by = self.request.GET.get('sort', 'subject')  # По умолчанию сортировка по имени
+        return queryset.order_by(sort_by)
+
 
 class MessageDetailView(LoginRequiredMixin, DetailView):
     model = Message

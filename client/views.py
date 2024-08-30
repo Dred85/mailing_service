@@ -1,19 +1,26 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from client.models import Client
 
 
 class HomeView(ListView):
     model = Client
+    paginate_by = 3
     template_name = "client/home.html"
+
 
 class ClientListView(LoginRequiredMixin, ListView):
     model = Client
-    paginate_by = 2
+    paginate_by = 3
     extra_context = {
         'title': 'Клиенты'
     }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sort_by = self.request.GET.get('sort', 'email')  # По умолчанию сортировка по имени
+        return queryset.order_by(sort_by)
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
@@ -45,12 +52,6 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
 
-    # permission_required = (
-    #     "mailing.can_view_mailing",
-    #     "mailing.can_view_users",
-    #     "mailing.can_blocked_users",
-    #     "mailing.can_disabled_mailing",
-    # )
     fields = ('first_name', 'last_name', 'email', 'comment', 'owner')
     extra_context = {
         'title': 'Форма по редактированию'
@@ -64,10 +65,8 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
         return reverse('client:client_detail', args=[self.kwargs.get('pk')])
 
 
-class ClientDeleteView(LoginRequiredMixin,  DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
-
-
 
     extra_context = {
         'title': 'Удаление клиента'
