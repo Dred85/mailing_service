@@ -12,9 +12,11 @@
     <p>{{ blog.content }}</p>
     <p style="text-align: left;">Просмотры: {{ blog.views_count }}</p>
     <div style="text-align: left;">
+        {% if user.is_authenticated and perms.blog.add_blog %}
         <a href="{% url 'blog:edit' blog.pk %}" style="margin-right: 10px;">Изменить</a>
         <a href="{% url 'blog:delete' blog.pk %}" style="margin-right: 10px;">Удалить</a>
         <a href="{% url 'blog:blog_list' %}">Вернуться к списку</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
