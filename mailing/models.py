@@ -41,9 +41,6 @@ class Settings(models.Model):
         verbose_name = 'настройки'
         verbose_name_plural = 'настройки'
         permissions = [
-            ("can_view_mailing", "can_view_mailing"),
-            ("can_view_users", "can_view_users"),
-            ("can_blocked_users", "can_blocked_users"),
             ("can_disabled_mailing", "can_disabled_mailing"),
         ]
 
