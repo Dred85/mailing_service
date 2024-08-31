@@ -17,22 +17,24 @@
     <div class="card mb-4 rounded-3 shadow-sm">
 
         <div class="card-body">
-            {% if user == object.owner or perms.mailing.can_view_mailing %}
+            {% if user == object.owner or perms.mailing.can_disabled_mailing %}
             <h5 class="card-title pricing-card-title">{{ object.message }}</h5><br>
-            {% endif %}
+
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                {% if user == object.owner %}
+
                 <a href="{% url 'mailing:settings_detail' object.pk %}" type="button"
                    class="w-100 btn btn-outline-success">Открыть</a>
                 <a href="{% url 'mailing:settings_update' object.pk %}" type="button"
                    class="w-100 btn btn-outline-warning">Редактировать</a>
+            </div>
+            {% endif %}
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                {% if user == object.owner%}
                 <a href="{% url 'mailing:settings_delete' object.pk %}" type="button"
                    class="w-100 btn btn-outline-danger">Удалить</a>
                 {% endif %}
-
             </div>
         </div>
     </div>
-</div>
-{% endfor %}
-{% endblock %}
+    {% endfor %}
+    {% endblock %}
