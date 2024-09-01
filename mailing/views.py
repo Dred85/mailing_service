@@ -1,10 +1,15 @@
+from urllib import request
+
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from mailing.forms import SettingsForm, MailingModeratorForm
+
+from client.models import Client
+from mailing.forms import SettingsForm, MailingModeratorForm, MailingModeratorFormOwner
 from mailing.models import Settings
+from django.forms import inlineformset_factory
 
 
 class SettingsListView(LoginRequiredMixin, ListView):
@@ -13,6 +18,11 @@ class SettingsListView(LoginRequiredMixin, ListView):
     extra_context = {
         'title': 'Рассылки'
     }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sort_by = self.request.GET.get('sort', 'client')  # По умолчанию сортировка по имени
+        return queryset.order_by(sort_by)
 
 
 class SettingsDetailView(LoginRequiredMixin, DetailView):
@@ -30,23 +40,26 @@ class SettingsDetailView(LoginRequiredMixin, DetailView):
 
 class SettingsCreateView(LoginRequiredMixin, CreateView):
     model = Settings
-    form_class = SettingsForm
-
+    form_class = MailingModeratorFormOwner
     extra_context = {
         'title': 'Форма по добавлению'
     }
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()  # Получаем стандартные аргументы формы
+        kwargs['user'] = self.request.user  # Передаем текущего пользователя в форму
+        return kwargs
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('mailing:settings_list')
+        return reverse('mailing:settings_list')  # Укажите URL для перенаправления после успешного создания
 
 
 class SettingsUpdateView(LoginRequiredMixin, UpdateView):
     model = Settings
-
 
     def get_form_class(self):
         user = self.request.user
