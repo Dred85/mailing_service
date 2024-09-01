@@ -31,6 +31,7 @@
                         <li>
                             <h6>{{ blog.title }}</h6>
                             <p>{{ blog.content|truncatewords:20 }}</p>
+                            <img src="{{ blog.preview_image|media_filter }}" class="card-img-top" alt="{{ object.image|media_filter }}">
                             <a href="{% url 'blog:view' blog.id %}"> Читать далее </a>
 
                         </li>
