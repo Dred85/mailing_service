@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView, C
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
+from mailing.cron import send_mailing_email
 from mailing.forms import SettingsForm, MailingModeratorForm, MailingModeratorFormOwner
 from mailing.models import Settings, Attempt
 
@@ -42,16 +43,24 @@ class SettingsCreateView(LoginRequiredMixin, CreateView):
     }
 
     def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()  # Получаем стандартные аргументы формы
-        kwargs['user'] = self.request.user  # Передаем текущего пользователя в форму
+        kwargs = super().get_form_kwargs()  # Получаю стандартные аргументы формы
+        kwargs['user'] = self.request.user  # Передаю текущего пользователя в форму
         return kwargs
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user  # Устанавливаем владельца
+        form.instance.owner = self.request.user  # Устанавливаю владельца
+
+
+        mailing_item = form.save()  # Сначала сохраняю объект Settings
+
+        # После этого отправляю письма
+        selected_clients = form.cleaned_data['client']  # Получаю выбранных клиентов
+        send_mailing_email(mailing_item, selected_clients)  # Отправляю сообщения только выбранным клиентам
+
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('mailing:settings_list')  # Укажите URL для перенаправления после успешного создания
+        return reverse('mailing:settings_list')
 
 
 class SettingsUpdateView(LoginRequiredMixin, UpdateView):
@@ -83,6 +92,7 @@ class SettingsDeleteView(LoginRequiredMixin, DeleteView):
     }
 
     success_url = reverse_lazy('mailing:settings_list')
+
 
 class AttemptListView(LoginRequiredMixin, ListView):
     model = Attempt
