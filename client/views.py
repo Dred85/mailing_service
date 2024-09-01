@@ -18,8 +18,8 @@ class ClientListView(LoginRequiredMixin, ListView):
     }
 
     def get_object(self, queryset=None):
-        return Client.objects.filter(owner=self.request.user).first()  # Возвращаем сообщение текущего пользователя, если он есть, иначе None
-
+        return Client.objects.filter(
+            owner=self.request.user).first()  # Возвращаем сообщение текущего пользователя, если он есть, иначе None
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -37,7 +37,7 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
-    fields = ('first_name', 'last_name', 'email', 'comment', 'owner')
+    fields = ('first_name', 'last_name', 'email', 'comment')
 
     extra_context = {
         'title': 'Форма по добавлению'
