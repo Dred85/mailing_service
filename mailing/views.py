@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
 from mailing.forms import SettingsForm, MailingModeratorForm, MailingModeratorFormOwner
-from mailing.models import Settings
+from mailing.models import Settings, Attempt
 
 
 class SettingsListView(LoginRequiredMixin, ListView):
@@ -83,3 +83,15 @@ class SettingsDeleteView(LoginRequiredMixin, DeleteView):
     }
 
     success_url = reverse_lazy('mailing:settings_list')
+
+class AttemptListView(LoginRequiredMixin, ListView):
+    model = Attempt
+    paginate_by = 3
+    extra_context = {
+        'title': 'Отчет о попытках'
+    }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sort_by = self.request.GET.get('sort', 'mailing')  # По умолчанию сортировка по имени
+        return queryset.order_by(sort_by)
