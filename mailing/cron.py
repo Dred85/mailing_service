@@ -1,7 +1,6 @@
 import smtplib
 from datetime import datetime, timedelta
 
-from client.models import Client
 from config import settings
 
 from django.core.mail import send_mail
@@ -10,13 +9,13 @@ from mailing.models import Settings, Attempt
 
 def send_mailing_email(mailing_item: Settings, selected_clients):
     """Отправка сообщения клиентам"""
-    for client in selected_clients:  # Обратите внимание на 'client', а не 'mailing'
+    for client in selected_clients:
         try:
             send_mail(
-                subject=mailing_item.message.text,  # Используем текст сообщения в качестве темы
+                subject=mailing_item.message.text,  # Использую текст сообщения в качестве темы
                 message=mailing_item.message.text,  # Тело сообщения
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[client.email],  # Убедитесь, что отправляете по email клиента
+                recipient_list=[client.email],
                 fail_silently=False,
             )
 
@@ -31,7 +30,7 @@ def send_mailing_email(mailing_item: Settings, selected_clients):
 
 
 def handle_mailing(mailing, selected_clients):
-    send_mailing_email(mailing, selected_clients)  # Передаем клиенты в функцию
+    send_mailing_email(mailing, selected_clients)  # Передаю клиента в функцию
     days_count = 1
     if mailing.frequency == 'daily':
         days_count = 1
