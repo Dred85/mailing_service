@@ -37,7 +37,7 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
-    fields = ('first_name', 'last_name', 'email', 'comment', 'owner')
+    fields = ('first_name', 'last_name', 'email', 'comment')
 
     extra_context = {
         'title': 'Форма по добавлению'

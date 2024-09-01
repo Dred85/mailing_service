@@ -11,7 +11,7 @@ class SettingsForm(forms.ModelForm):
         model = Settings
         user = forms.ChoiceField(required=True)
         fields = ["first_mailing_date",
-                  "frequency", "status", "message", "client", "owner", "is_active"]
+                  "frequency", "status", "message", "client", "is_active"]
 
 
 class MailingModeratorForm(StyledFormMixin, forms.ModelForm):
@@ -37,5 +37,7 @@ class MailingModeratorFormOwner(StyledFormMixin, forms.ModelForm):
 
     class Meta:
         model = Settings
-        fields = '__all__'  # Используйте '__all__', чтобы указать все поля
+        user = forms.ChoiceField(required=True)
+        fields = ["first_mailing_date",
+                  "frequency", "status", "message", "client", "is_active"]
 
