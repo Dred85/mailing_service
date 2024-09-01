@@ -11,7 +11,7 @@ class SettingsForm(forms.ModelForm):
         model = Settings
         user = forms.ChoiceField(required=True)
         fields = ["first_mailing_date",
-                  "frequency", "status", "message", "client", "owner", "is_active"]
+                  "frequency", "status", "message", "client", "is_active"]
 
 
 class MailingModeratorForm(StyledFormMixin, forms.ModelForm):
@@ -30,12 +30,12 @@ class MailingModeratorFormOwner(StyledFormMixin, forms.ModelForm):
             # Фильтруем клиентов по текущему пользователю
             self.fields['client'].queryset = Client.objects.filter(owner=user)
 
-
         if user:
             # Фильтруем сообщения по текущему пользователю
             self.fields['message'].queryset = Message.objects.filter(owner=user)
 
     class Meta:
         model = Settings
-        fields = '__all__'  # Используйте '__all__', чтобы указать все поля
-
+        user = forms.ChoiceField(required=True)
+        fields = ["first_mailing_date",
+                  "frequency", "status", "message", "client", "is_active"]
