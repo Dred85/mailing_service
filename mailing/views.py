@@ -43,24 +43,24 @@ class SettingsCreateView(LoginRequiredMixin, CreateView):
     }
 
     def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()  # Получаем стандартные аргументы формы
-        kwargs['user'] = self.request.user  # Передаем текущего пользователя в форму
+        kwargs = super().get_form_kwargs()  # Получаю стандартные аргументы формы
+        kwargs['user'] = self.request.user  # Передаю текущего пользователя в форму
         return kwargs
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user  # Устанавливаем владельца
+        form.instance.owner = self.request.user  # Устанавливаю владельца
 
-        # Сначала сохраняем объект Settings
-        mailing_item = form.save()  # Сохраните все связанные объекты
 
-        # После этого отправляем письма
-        selected_clients = form.cleaned_data['client']  # Получаем выбранных клиентов
-        send_mailing_email(mailing_item, selected_clients)  # Отправляем сообщения только выбранным клиентам
+        mailing_item = form.save()  # Сначала сохраняю объект Settings
+
+        # После этого отправляю письма
+        selected_clients = form.cleaned_data['client']  # Получаю выбранных клиентов
+        send_mailing_email(mailing_item, selected_clients)  # Отправляю сообщения только выбранным клиентам
 
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('mailing:settings_list')  # Укажите URL для перенаправления после успешного создания
+        return reverse('mailing:settings_list')
 
 
 class SettingsUpdateView(LoginRequiredMixin, UpdateView):
