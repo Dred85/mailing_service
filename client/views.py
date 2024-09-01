@@ -6,7 +6,6 @@ from client.models import Client
 
 class HomeView(ListView):
     model = Client
-    paginate_by = 3
     template_name = "client/home.html"
 
 
