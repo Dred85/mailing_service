@@ -18,8 +18,8 @@ class ClientListView(LoginRequiredMixin, ListView):
     }
 
     def get_object(self, queryset=None):
-        return Client.objects.filter(owner=self.request.user).first()  # Возвращаем сообщение текущего пользователя, если он есть, иначе None
-
+        return Client.objects.filter(
+            owner=self.request.user).first()  # Возвращаем сообщение текущего пользователя, если он есть, иначе None
 
     def get_queryset(self):
         queryset = super().get_queryset()

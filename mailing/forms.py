@@ -30,7 +30,6 @@ class MailingModeratorFormOwner(StyledFormMixin, forms.ModelForm):
             # Фильтруем клиентов по текущему пользователю
             self.fields['client'].queryset = Client.objects.filter(owner=user)
 
-
         if user:
             # Фильтруем сообщения по текущему пользователю
             self.fields['message'].queryset = Message.objects.filter(owner=user)
@@ -40,4 +39,3 @@ class MailingModeratorFormOwner(StyledFormMixin, forms.ModelForm):
         user = forms.ChoiceField(required=True)
         fields = ["first_mailing_date",
                   "frequency", "status", "message", "client", "is_active"]
-
