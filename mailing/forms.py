@@ -36,6 +36,9 @@ class MailingModeratorFormOwner(StyledFormMixin, forms.ModelForm):
 
     class Meta:
         model = Settings
-        user = forms.ChoiceField(required=True)
+        # user = forms.ChoiceField(required=True)
         fields = ["first_mailing_date",
                   "frequency", "status", "message", "client", "is_active"]
+        widgets = {
+            'client': forms.CheckboxSelectMultiple(),  # Для удобного выбора клиентов
+        }
