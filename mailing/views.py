@@ -49,13 +49,14 @@ class SettingsCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
-        mailing_item = form.save(commit=False)  # Не сохраняем еще, чтобы передать в отправку
 
-        # Достаем выбранных клиентов и отправляем эмейл
+        # Сначала сохраняем объект Settings
+        mailing_item = form.save()  # Сохраните все связанные объекты
+
+        # После этого отправляем письма
         selected_clients = form.cleaned_data['client']  # Получаем выбранных клиентов
         send_mailing_email(mailing_item, selected_clients)  # Отправляем сообщения только выбранным клиентам
 
-        mailing_item.save()  # Теперь сохраняем настройки рассылки
         return super().form_valid(form)
 
     def get_success_url(self):
