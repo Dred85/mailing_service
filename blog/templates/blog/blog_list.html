@@ -1,5 +1,5 @@
 {% extends 'client/base.html' %}
-
+{% load my_tags %}
 
 {% load static %}
 {% block  content %}
@@ -14,11 +14,15 @@
     {% for object in object_list %}
     <div class="col">
         <div class="card shadow-sm">
-            <img src="{{ object.preview_image }}">
+
             <div class="card-body">
                 <p class="card-text">
                     {{ object | title }}
                 </p>
+                {% if object.preview_image %}
+                <img src="{{ object.preview_image.url }}">
+                {% endif %}
+
                 <div class="d-grid gap-2 d-md-block">
                     <div class="btn-group">
                         <a class="btn btn-success" href="{% url 'blog:view' object.pk %}" role="button">Посмотреть</a>
