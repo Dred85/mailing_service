@@ -34,12 +34,19 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
         'title': 'Форма по добавлению'
     }
 
+    
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()  # Получаем стандартные аргументы формы
+        kwargs['user'] = self.request.user  # Передаем текущего пользователя в форму
+        return kwargs
+
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('message:message_list')
+        return reverse('mailing:settings_list')  # Укажите URL для перенаправления после успешного создания
 
 
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
