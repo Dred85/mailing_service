@@ -1,6 +1,7 @@
 from django import forms
 
 from client.models import Client
+from message.models import Message
 from .mixins import StyledFormMixin
 from .models import Settings
 
@@ -28,7 +29,11 @@ class MailingModeratorFormOwner(StyledFormMixin, forms.ModelForm):
         if user:
             # Фильтруем клиентов по текущему пользователю
             self.fields['client'].queryset = Client.objects.filter(owner=user)
-            self.fields['message'].queryset = Client.objects.filter(owner=user)
+
+
+        if user:
+            # Фильтруем сообщения по текущему пользователю
+            self.fields['message'].queryset = Message.objects.filter(owner=user)
 
     class Meta:
         model = Settings
