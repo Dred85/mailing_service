@@ -1,4 +1,3 @@
-from urllib import request
 
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
@@ -6,10 +5,8 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView, C
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
-from client.models import Client
 from mailing.forms import SettingsForm, MailingModeratorForm, MailingModeratorFormOwner
 from mailing.models import Settings
-from django.forms import inlineformset_factory
 
 
 class SettingsListView(LoginRequiredMixin, ListView):
@@ -81,7 +78,6 @@ class SettingsUpdateView(LoginRequiredMixin, UpdateView):
 
 class SettingsDeleteView(LoginRequiredMixin, DeleteView):
     model = Settings
-    form_class = SettingsForm
 
     extra_context = {
         'title': 'Удаление рассылки'

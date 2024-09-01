@@ -34,8 +34,6 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
         'title': 'Форма по добавлению'
     }
 
-    
-
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()  # Получаем стандартные аргументы формы
         kwargs['user'] = self.request.user  # Передаем текущего пользователя в форму
