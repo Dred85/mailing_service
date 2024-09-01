@@ -1,0 +1,57 @@
+[
+  {
+    "model": "client.client",
+    "pk": 5,
+    "fields": {
+      "first_name": "Александр Леонидович",
+      "last_name": "Олонов",
+      "email": "IVANGRYZNII@yandex.ru",
+      "comment": "ГАЗпромбанк",
+      "owner": 16
+    }
+  },
+  {
+    "model": "client.client",
+    "pk": 9,
+    "fields": {
+      "first_name": "Александр",
+      "last_name": "Олонов",
+      "email": "adrolv@rambler.ru",
+      "comment": "Hello World!",
+      "owner": 16
+    }
+  },
+  {
+    "model": "client.client",
+    "pk": 12,
+    "fields": {
+      "first_name": "Кот в сапогах",
+      "last_name": "Котов",
+      "email": "adrolv08111985@gmail.com",
+      "comment": "Котов кот",
+      "owner": 6
+    }
+  },
+  {
+    "model": "client.client",
+    "pk": 14,
+    "fields": {
+      "first_name": "Александр",
+      "last_name": "Олонов",
+      "email": "Olonov@gmail.com",
+      "comment": "Привет",
+      "owner": 15
+    }
+  },
+  {
+    "model": "client.client",
+    "pk": 15,
+    "fields": {
+      "first_name": "Александр1",
+      "last_name": "Олонов1",
+      "email": "adrolv985@gmail.com",
+      "comment": "афап",
+      "owner": 15
+    }
+  }
+]
