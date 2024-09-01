@@ -20,14 +20,14 @@ def send_mailing_email(mailing_item: Settings, selected_clients):
                 fail_silently=False,
             )
 
-            # attempt = Attempt.objects.create(status='успешно', mailing=mailing_item)
+            attempt = Attempt.objects.create(status='успешно', mailing=mailing_item)
 
         except smtplib.SMTPException as e:
             attempt = Attempt.objects.create(status='не успешно', mailing=mailing_item, server_response=e)
 
-        # attempt.save()
-        # mailing_item.status = 'запущена'
-        # mailing_item.save()
+        attempt.save()
+        mailing_item.status = 'запущена'
+        mailing_item.save()
 
 
 def handle_mailing(mailing, selected_clients):
