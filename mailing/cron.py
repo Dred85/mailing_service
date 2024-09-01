@@ -8,31 +8,30 @@ from django.core.mail import send_mail
 from mailing.models import Settings, Attempt
 
 
-def send_mailing_email(mailing_item: Settings):
+def send_mailing_email(mailing_item: Settings, selected_clients):
     """Отправка сообщения клиентам"""
-    clients = Client.objects.all()
-    for mailing in clients:
+    for client in selected_clients:  # Обратите внимание на 'client', а не 'mailing'
         try:
             send_mail(
-                f'{mailing_item.message}',
-                f'{mailing_item.message.text}',
-                settings.DEFAULT_FROM_EMAIL,
-                [mailing.email],
+                subject=mailing_item.message.text,  # Используем текст сообщения в качестве темы
+                message=mailing_item.message.text,  # Тело сообщения
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[client.email],  # Убедитесь, что отправляете по email клиента
                 fail_silently=False,
             )
 
-            attempt = Attempt.objects.create(status='успешно', mailing=mailing_item)
+            Attempt.objects.create(status='успешно', mailing=mailing_item)  # Логируем успешный результат
 
         except smtplib.SMTPException as e:
-            attempt = Attempt.objects.create(status='не успешно', mailing=mailing_item, server_response=e)
+            Attempt.objects.create(status='не успешно', mailing=mailing_item, server_response=str(e))  # Логируем ошибку
 
         attempt.save()
         mailing_item.status = 'запущена'
         mailing_item.save()
 
 
-def handle_mailing(mailing):
-    send_mailing_email(mailing)
+def handle_mailing(mailing, selected_clients):
+    send_mailing_email(mailing, selected_clients)  # Передаем клиенты в функцию
     days_count = 1
     if mailing.frequency == 'daily':
         days_count = 1

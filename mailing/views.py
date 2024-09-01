@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView, C
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
+from mailing.cron import send_mailing_email
 from mailing.forms import SettingsForm, MailingModeratorForm, MailingModeratorFormOwner
 from mailing.models import Settings, Attempt
 
@@ -48,6 +49,13 @@ class SettingsCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
+        mailing_item = form.save(commit=False)  # Не сохраняем еще, чтобы передать в отправку
+
+        # Достаем выбранных клиентов и отправляем эмейл
+        selected_clients = form.cleaned_data['client']  # Получаем выбранных клиентов
+        send_mailing_email(mailing_item, selected_clients)  # Отправляем сообщения только выбранным клиентам
+
+        mailing_item.save()  # Теперь сохраняем настройки рассылки
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -83,6 +91,7 @@ class SettingsDeleteView(LoginRequiredMixin, DeleteView):
     }
 
     success_url = reverse_lazy('mailing:settings_list')
+
 
 class AttemptListView(LoginRequiredMixin, ListView):
     model = Attempt
