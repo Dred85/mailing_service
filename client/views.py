@@ -16,6 +16,7 @@ class ClientListView(LoginRequiredMixin, ListView):
     extra_context = {
         'title': 'Клиенты'
     }
+
     def get_object(self, queryset=None):
         return Client.objects.filter(owner=self.request.user).first()  # Возвращаем сообщение текущего пользователя, если он есть, иначе None
 

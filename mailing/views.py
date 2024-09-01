@@ -82,4 +82,5 @@ class SettingsDeleteView(LoginRequiredMixin, DeleteView):
     extra_context = {
         'title': 'Удаление рассылки'
     }
+
     success_url = reverse_lazy('mailing:settings_list')
