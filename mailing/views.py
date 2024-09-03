@@ -96,12 +96,8 @@ class SettingsDeleteView(LoginRequiredMixin, DeleteView):
 
 class AttemptListView(LoginRequiredMixin, ListView):
     model = Attempt
-    paginate_by = 3
-    extra_context = {
-        'title': 'Отчет о попытках'
-    }
+    template_name = 'mailing/attempt_list.html'
+    context_object_name = 'attempts'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        sort_by = self.request.GET.get('sort', 'mailing')  # По умолчанию сортировка по имени
-        return queryset.order_by(sort_by)
+        return Attempt.objects.all().order_by('-last_attempt_date')
