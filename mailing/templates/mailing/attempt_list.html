@@ -1,0 +1,45 @@
+{% extends 'client/base.html' %}
+{% block content %}
+<div class="col-12">
+    <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">Рассылка: {{object}}</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <th scope="row"> Сообщение:</th>
+                    <td> {{ object.message }}</td>
+                    <th scope="row"></th>
+                    <td colspan="2"></td>
+
+                </td>
+                <th scope="row"></th>
+                <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th scope="row"> Статус:</th>
+                    <td> {{ object.status }}</td>
+                    <th scope="row"></th>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th scope="row"> Отправка:</th>
+                    <td> {{ object.frequency }}</td>
+                    <th scope="row"></th>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    {% for attempt_item in settings.attempt_set.all %}
+                    <th scope="row"> Информация об отправки:</th>
+                    <td colspan="2">Дата отправки: {{ attempt_item.last_attempt_date}}</td>
+                    <td colspan="2">Ответ сервера: {{ attempt_item.server_response}}</td>
+                    <th scope="row"> Статус:</th>
+                    <td colspan="2">{{ attempt_item.status}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
