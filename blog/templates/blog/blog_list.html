@@ -1,26 +1,24 @@
 {% extends 'client/base.html' %}
 {% load my_tags %}
-
 {% load static %}
-{% block  content %}
+
+{% block content %}
 <div class="container mb-2 mt-2">
     {% if user.is_authenticated and perms.blog.add_blog %}
     <a class="btn btn-primary" href="{% url 'blog:create' %}" role="button">Добавить статью</a>
     {% endif %}
-
-
 </div>
+
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     {% for object in object_list %}
     <div class="col">
         <div class="card shadow-sm">
-
             <div class="card-body">
                 <p class="card-text">
                     {{ object | title }}
                 </p>
                 {% if object.preview_image %}
-                <img src="{{ object.preview_image.url }}">
+                <img src="{{ object.preview_image.url }}" class="img-fluid img-thumbnail" alt="{{ object.title }}">
                 {% endif %}
 
                 <div class="d-grid gap-2 d-md-block">
@@ -28,20 +26,14 @@
                         <a class="btn btn-success" href="{% url 'blog:view' object.pk %}" role="button">Посмотреть</a>
 
                         {% if perms.blog.add_blog %}
-                        <a class="btn btn-warning" href="{% url 'blog:edit' object.pk %}"
-                           role="button">Изменить</a>
-
-                        <a class="btn btn-danger" href="{% url 'blog:delete' object.pk %}"
-                           role="button">Удалить</a>
+                        <a class="btn btn-warning" href="{% url 'blog:edit' object.pk %}" role="button">Изменить</a>
+                        <a class="btn btn-danger" href="{% url 'blog:delete' object.pk %}" role="button">Удалить</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-
     {% endfor %}
-
 </div>
 {% endblock %}
