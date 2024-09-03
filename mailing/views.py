@@ -66,19 +66,27 @@ class SettingsCreateView(LoginRequiredMixin, CreateView):
 class SettingsUpdateView(LoginRequiredMixin, UpdateView):
     model = Settings
 
-    def get_form_class(self):
-        user = self.request.user
-        if user == self.object.owner:
-            return SettingsForm
-        if (
-                user.has_perm("mailing.can_disabled_mailing")
-        ):
-            return MailingModeratorForm
-        raise PermissionDenied
-
+    form_class = MailingModeratorFormOwner
     extra_context = {
-        'title': 'Форма по редактированию'
+        'title': 'Форма по добавлению'
     }
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()  # Получаю стандартные аргументы формы
+        kwargs['user'] = self.request.user  # Передаю текущего пользователя в форму
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаю владельца
+
+        mailing_item = form.save()  # Сначала сохраняю объект Settings
+
+        # После этого отправляю письма
+        selected_clients = form.cleaned_data['client']  # Получаю выбранных клиентов
+        send_mailing_email(mailing_item, selected_clients)  # Отправляю сообщения только выбранным клиентам
+
+        return super().form_valid(form)
+
 
     def get_success_url(self):
         return reverse('mailing:settings_list')
