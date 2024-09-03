@@ -8,7 +8,7 @@ from django.views.decorators.cache import cache_page
 app_name = ClientConfig.name
 
 urlpatterns = [
-    path("", HomeView.as_view(), name="home"),
+    path("", cache_page(60)(HomeView.as_view()), name="home"),
     path('client_list',ClientListView.as_view(), name='client_list'),
     path('<int:pk>/', ClientDetailView.as_view(), name='client_detail'),
     path('update/<int:pk>/', ClientUpdateView.as_view(), name='client_update'),
