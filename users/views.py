@@ -86,7 +86,6 @@ class PasswordResetView(View):
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=True,
-
             )
             return redirect(reverse("users:login"))
         except Exception as e:

@@ -6,12 +6,19 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('message', '0002_alter_message_options_message_owner'),
+        ("message", "0002_alter_message_options_message_owner"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='message',
-            options={'permissions': [('can_view_subject_message', 'can_view_subject_message'), ('can_view_subject_text', 'can_view_subject_text')], 'verbose_name': 'сообщение', 'verbose_name_plural': 'сообщения'},
+            name="message",
+            options={
+                "permissions": [
+                    ("can_view_subject_message", "can_view_subject_message"),
+                    ("can_view_subject_text", "can_view_subject_text"),
+                ],
+                "verbose_name": "сообщение",
+                "verbose_name_plural": "сообщения",
+            },
         ),
     ]

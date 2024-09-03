@@ -1,5 +1,11 @@
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+    CreateView,
+)
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -12,100 +18,91 @@ from mailing.models import Settings, Attempt
 class SettingsListView(LoginRequiredMixin, ListView):
     model = Settings
     paginate_by = 3
-    extra_context = {
-        'title': 'Рассылки'
-    }
+    extra_context = {"title": "Рассылки"}
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        sort_by = self.request.GET.get('sort', 'client')  # По умолчанию сортировка по имени
+        sort_by = self.request.GET.get(
+            "sort", "client"
+        )  # По умолчанию сортировка по имени
         return queryset.order_by(sort_by)
 
 
 class SettingsDetailView(LoginRequiredMixin, DetailView):
     model = Settings
     permission_required = "mailing.settings_list"
-    extra_context = {
-        'title': 'Рассылка'
-    }
+    extra_context = {"title": "Рассылка"}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object'] = self.object  # объект Settings
+        context["object"] = self.object  # объект Settings
         return context
 
 
 class SettingsCreateView(LoginRequiredMixin, CreateView):
     model = Settings
     form_class = MailingModeratorFormOwner
-    extra_context = {
-        'title': 'Форма по добавлению'
-    }
+    extra_context = {"title": "Форма по добавлению"}
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()  # Получаю стандартные аргументы формы
-        kwargs['user'] = self.request.user  # Передаю текущего пользователя в форму
+        kwargs["user"] = self.request.user  # Передаю текущего пользователя в форму
         return kwargs
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаю владельца
 
-
         mailing_item = form.save()  # Сначала сохраняю объект Settings
 
         # После этого отправляю письма
-        selected_clients = form.cleaned_data['client']  # Получаю выбранных клиентов
-        send_mailing_email(mailing_item, selected_clients)  # Отправляю сообщения только выбранным клиентам
+        selected_clients = form.cleaned_data["client"]  # Получаю выбранных клиентов
+        send_mailing_email(
+            mailing_item, selected_clients
+        )  # Отправляю сообщения только выбранным клиентам
 
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('mailing:settings_list')
+        return reverse("mailing:settings_list")
 
 
 class SettingsUpdateView(LoginRequiredMixin, UpdateView):
     model = Settings
 
     form_class = MailingModeratorFormOwner
-    extra_context = {
-        'title': 'Форма по добавлению'
-    }
+    extra_context = {"title": "Форма по редактированию"}
 
     def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()  # Получаю стандартные аргументы формы
-        kwargs['user'] = self.request.user  # Передаю текущего пользователя в форму
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
         return kwargs
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user  # Устанавливаю владельца
+        form.instance.owner = self.request.user
 
-        mailing_item = form.save()  # Сначала сохраняю объект Settings
+        mailing_item = form.save()
 
-        # После этого отправляю письма
-        selected_clients = form.cleaned_data['client']  # Получаю выбранных клиентов
-        send_mailing_email(mailing_item, selected_clients)  # Отправляю сообщения только выбранным клиентам
+        selected_clients = form.cleaned_data["client"]
+        send_mailing_email(mailing_item, selected_clients)
 
         return super().form_valid(form)
 
-
     def get_success_url(self):
-        return reverse('mailing:settings_list')
+        return reverse("mailing:settings_list")
 
 
 class SettingsDeleteView(LoginRequiredMixin, DeleteView):
     model = Settings
 
-    extra_context = {
-        'title': 'Удаление рассылки'
-    }
+    extra_context = {"title": "Удаление рассылки"}
 
-    success_url = reverse_lazy('mailing:settings_list')
+    success_url = reverse_lazy("mailing:settings_list")
 
 
 class AttemptListView(LoginRequiredMixin, ListView):
     model = Attempt
-    template_name = 'mailing/attempt_list.html'
-    context_object_name = 'attempts'
+    template_name = "mailing/attempt_list.html"
+    context_object_name = "attempts"
 
     def get_queryset(self):
-        return Attempt.objects.all().order_by('-last_attempt_date')
+        return Attempt.objects.all().order_by("-last_attempt_date")

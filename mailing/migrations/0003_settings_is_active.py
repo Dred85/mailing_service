@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mailing', '0002_alter_settings_options_settings_owner'),
+        ("mailing", "0002_alter_settings_options_settings_owner"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='settings',
-            name='is_active',
-            field=models.BooleanField(default=True, verbose_name='активна'),
+            model_name="settings",
+            name="is_active",
+            field=models.BooleanField(default=True, verbose_name="активна"),
         ),
     ]

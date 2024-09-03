@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0002_alter_blog_options_remove_blog_body_and_more'),
+        ("blog", "0002_alter_blog_options_remove_blog_body_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='blog',
-            name='content',
-            field=models.TextField(default=''),
+            model_name="blog",
+            name="content",
+            field=models.TextField(default=""),
         ),
         migrations.AlterField(
-            model_name='blog',
-            name='preview_image',
-            field=models.ImageField(default='', upload_to='blog_previews/'),
+            model_name="blog",
+            name="preview_image",
+            field=models.ImageField(default="", upload_to="blog_previews/"),
         ),
     ]
