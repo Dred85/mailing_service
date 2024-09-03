@@ -6,12 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mailing', '0003_settings_is_active'),
+        ("mailing", "0003_settings_is_active"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='settings',
-            options={'permissions': [('can_disabled_mailing', 'can_disabled_mailing')], 'verbose_name': 'настройки', 'verbose_name_plural': 'настройки'},
+            name="settings",
+            options={
+                "permissions": [("can_disabled_mailing", "can_disabled_mailing")],
+                "verbose_name": "настройки",
+                "verbose_name_plural": "настройки",
+            },
         ),
     ]

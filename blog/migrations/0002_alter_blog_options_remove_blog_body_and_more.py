@@ -6,55 +6,57 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0001_initial'),
+        ("blog", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='blog',
-            options={'verbose_name': 'Статья', 'verbose_name_plural': 'Статьи'},
+            name="blog",
+            options={"verbose_name": "Статья", "verbose_name_plural": "Статьи"},
         ),
         migrations.RemoveField(
-            model_name='blog',
-            name='body',
+            model_name="blog",
+            name="body",
         ),
         migrations.RemoveField(
-            model_name='blog',
-            name='preview',
+            model_name="blog",
+            name="preview",
         ),
         migrations.AddField(
-            model_name='blog',
-            name='content',
-            field=models.TextField(default='Введите содержание поста здесь.'),
+            model_name="blog",
+            name="content",
+            field=models.TextField(default="Введите содержание поста здесь."),
         ),
         migrations.AddField(
-            model_name='blog',
-            name='preview_image',
-            field=models.ImageField(default='blog_previews/default.jpg', upload_to='blog_previews/'),
+            model_name="blog",
+            name="preview_image",
+            field=models.ImageField(
+                default="blog_previews/default.jpg", upload_to="blog_previews/"
+            ),
         ),
         migrations.AddField(
-            model_name='blog',
-            name='slug',
-            field=models.CharField(default=' ', max_length=200, unique=True),
+            model_name="blog",
+            name="slug",
+            field=models.CharField(default=" ", max_length=200, unique=True),
         ),
         migrations.AlterField(
-            model_name='blog',
-            name='created_at',
+            model_name="blog",
+            name="created_at",
             field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
-            model_name='blog',
-            name='is_published',
+            model_name="blog",
+            name="is_published",
             field=models.BooleanField(default=True),
         ),
         migrations.AlterField(
-            model_name='blog',
-            name='title',
+            model_name="blog",
+            name="title",
             field=models.CharField(max_length=200),
         ),
         migrations.AlterField(
-            model_name='blog',
-            name='views_count',
+            model_name="blog",
+            name="views_count",
             field=models.PositiveIntegerField(default=0),
         ),
     ]

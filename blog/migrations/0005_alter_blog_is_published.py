@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0004_alter_blog_content_alter_blog_preview_image'),
+        ("blog", "0004_alter_blog_content_alter_blog_preview_image"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='blog',
-            name='is_published',
-            field=models.BooleanField(default=True, verbose_name='Опубликовано'),
+            model_name="blog",
+            name="is_published",
+            field=models.BooleanField(default=True, verbose_name="Опубликовано"),
         ),
     ]

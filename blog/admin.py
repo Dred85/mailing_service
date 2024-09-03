@@ -5,6 +5,17 @@ from blog.models import Blog
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at', 'views_count',)
-    list_filter = ('title', 'created_at', 'views_count',)
-    search_fields = ('title', 'body',)
+    list_display = (
+        "title",
+        "created_at",
+        "views_count",
+    )
+    list_filter = (
+        "title",
+        "created_at",
+        "views_count",
+    )
+    search_fields = (
+        "title",
+        "body",
+    )

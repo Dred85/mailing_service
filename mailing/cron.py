@@ -19,24 +19,26 @@ def send_mailing_email(mailing_item: Settings, selected_clients):
                 fail_silently=False,
             )
 
-            attempt = Attempt.objects.create(status='успешно', mailing=mailing_item)
+            attempt = Attempt.objects.create(status="успешно", mailing=mailing_item)
 
         except smtplib.SMTPException as e:
-            attempt = Attempt.objects.create(status='не успешно', mailing=mailing_item, server_response=e)
+            attempt = Attempt.objects.create(
+                status="не успешно", mailing=mailing_item, server_response=e
+            )
 
         attempt.save()
-        mailing_item.status = 'запущена'
+        mailing_item.status = "запущена"
         mailing_item.save()
 
 
 def handle_mailing(mailing, selected_clients):
     send_mailing_email(mailing, selected_clients)  # Передаю клиента в функцию
     days_count = 1
-    if mailing.frequency == 'daily':
+    if mailing.frequency == "daily":
         days_count = 1
-    elif mailing.frequency == 'weekly':
+    elif mailing.frequency == "weekly":
         days_count = 7
-    elif mailing.frequency == 'monthly':
+    elif mailing.frequency == "monthly":
         days_count = 30
     mailing.first_mailing_date += timedelta(days=days_count)
     mailing.save()
@@ -53,8 +55,9 @@ def send_mailing_scheduled():
         if not Attempt.objects.filter(mailing=m).exists():
             handle_mailing(m)
 
-    mailing_list = Settings.objects.filter(first_mailing_date__lt=before,
-                                           first_mailing_date__gt=after)
+    mailing_list = Settings.objects.filter(
+        first_mailing_date__lt=before, first_mailing_date__gt=after
+    )
 
     for mailing in mailing_list:
         handle_mailing(mailing)

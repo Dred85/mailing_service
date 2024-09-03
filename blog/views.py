@@ -43,7 +43,6 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
         "views_count",
     )
 
-
     # success_url = reverse_lazy('blog:list')
 
     def form_valid(self, form):
