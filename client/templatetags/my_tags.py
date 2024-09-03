@@ -22,22 +22,22 @@ def current_time(format_string):
 
 @register.simple_tag
 def count_mailing():
-    """ Подсчет общего количества рассылок"""
+    """Подсчет общего количества рассылок"""
     count_mailing_ = Settings.objects.count()
     return f"Количество рассылок сейчас: {count_mailing_}"
 
 
 @register.simple_tag
 def count_mailing_activ():
-    """ Подсчет количества активных рассылок"""
+    """Подсчет количества активных рассылок"""
     count_mailing_activ_ = Settings.objects.filter(is_active=True).count()
     return f"Количество активных рассылок сейчас: {count_mailing_activ_}"
 
 
 @register.simple_tag
 def count_clients_uniq():
-    """ Подсчет количества уникальных клиентов для рассылок"""
-    count_clients_uniq_ = Client.objects.values('email').distinct().count()
+    """Подсчет количества уникальных клиентов для рассылок"""
+    count_clients_uniq_ = Client.objects.values("email").distinct().count()
     return f"Количество уникальных клиентов для рассылок: {count_clients_uniq_}"
 
 
@@ -50,7 +50,6 @@ def get_random_3_blogs():
 
     random_blogs_list = random.sample(all_blogs, 3)
     return random_blogs_list
-
 
 
 # Создание фильтра

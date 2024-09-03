@@ -9,38 +9,122 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('client', '0001_initial'),
-        ('message', '0001_initial'),
+        ("client", "0001_initial"),
+        ("message", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Settings',
+            name="Settings",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_mailing_date', models.DateTimeField(verbose_name='дата первой отправки')),
-                ('frequency', models.CharField(choices=[('daily', 'раз в день'), ('weekly', 'раз в неделю'), ('monthly', 'раз в месяц')], max_length=150, verbose_name='периодичность')),
-                ('status', models.CharField(choices=[('завершена', 'завершена'), ('создана', 'создана'), ('запущена', 'запущена')], max_length=150, verbose_name='статус отправки')),
-                ('client', models.ManyToManyField(blank=True, null=True, to='client.client', verbose_name='клиент')),
-                ('message', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='message.message', verbose_name='сообщение')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "first_mailing_date",
+                    models.DateTimeField(verbose_name="дата первой отправки"),
+                ),
+                (
+                    "frequency",
+                    models.CharField(
+                        choices=[
+                            ("daily", "раз в день"),
+                            ("weekly", "раз в неделю"),
+                            ("monthly", "раз в месяц"),
+                        ],
+                        max_length=150,
+                        verbose_name="периодичность",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("завершена", "завершена"),
+                            ("создана", "создана"),
+                            ("запущена", "запущена"),
+                        ],
+                        max_length=150,
+                        verbose_name="статус отправки",
+                    ),
+                ),
+                (
+                    "client",
+                    models.ManyToManyField(
+                        blank=True, null=True, to="client.client", verbose_name="клиент"
+                    ),
+                ),
+                (
+                    "message",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="message.message",
+                        verbose_name="сообщение",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'настройки',
-                'verbose_name_plural': 'настройки',
+                "verbose_name": "настройки",
+                "verbose_name_plural": "настройки",
             },
         ),
         migrations.CreateModel(
-            name='Attempt',
+            name="Attempt",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('last_attempt_date', models.DateTimeField(auto_now_add=True, verbose_name='дата последней попытки')),
-                ('status', models.CharField(blank=True, choices=[('успешно', 'успешно'), ('не успешно', 'не успешно')], max_length=150, null=True, verbose_name='статус попытки')),
-                ('server_response', models.CharField(blank=True, max_length=150, null=True, verbose_name='ответ почтового сервера')),
-                ('mailing', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mailing.settings', verbose_name='рассылка')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "last_attempt_date",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="дата последней попытки"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        blank=True,
+                        choices=[("успешно", "успешно"), ("не успешно", "не успешно")],
+                        max_length=150,
+                        null=True,
+                        verbose_name="статус попытки",
+                    ),
+                ),
+                (
+                    "server_response",
+                    models.CharField(
+                        blank=True,
+                        max_length=150,
+                        null=True,
+                        verbose_name="ответ почтового сервера",
+                    ),
+                ),
+                (
+                    "mailing",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="mailing.settings",
+                        verbose_name="рассылка",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'попытка',
-                'verbose_name_plural': 'попытки',
+                "verbose_name": "попытка",
+                "verbose_name_plural": "попытки",
             },
         ),
     ]

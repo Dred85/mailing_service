@@ -5,5 +5,8 @@ from message.models import Message
 
 @admin.register(Message)
 class SettingsAdmin(admin.ModelAdmin):
-    list_display = ('subject',)
-    list_filter = ('subject', 'text',)
+    list_display = ("subject",)
+    list_filter = (
+        "subject",
+        "text",
+    )

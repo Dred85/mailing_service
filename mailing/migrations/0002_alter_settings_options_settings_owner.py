@@ -9,17 +9,33 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('mailing', '0001_initial'),
+        ("mailing", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='settings',
-            options={'permissions': [('can_view_mailing', 'can_view_mailing'), ('can_view_users', 'can_view_users'), ('can_blocked_users', 'can_blocked_users'), ('can_disabled_mailing', 'can_disabled_mailing')], 'verbose_name': 'настройки', 'verbose_name_plural': 'настройки'},
+            name="settings",
+            options={
+                "permissions": [
+                    ("can_view_mailing", "can_view_mailing"),
+                    ("can_view_users", "can_view_users"),
+                    ("can_blocked_users", "can_blocked_users"),
+                    ("can_disabled_mailing", "can_disabled_mailing"),
+                ],
+                "verbose_name": "настройки",
+                "verbose_name_plural": "настройки",
+            },
         ),
         migrations.AddField(
-            model_name='settings',
-            name='owner',
-            field=models.ForeignKey(blank=True, help_text='Укажите владельца рассылки', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='владелец'),
+            model_name="settings",
+            name="owner",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="Укажите владельца рассылки",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="владелец",
+            ),
         ),
     ]
