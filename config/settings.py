@@ -83,16 +83,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("NAME"),
-        "USER": "postgres",
+        "NAME": os.getenv("DATABASES_NAME"),
+        "USER": os.getenv("DATABASES_USER"),
         "PASSWORD": os.getenv("DATABASES_PASSWORD"),
-        "HOST": "localhost",
-        "PORT": os.getenv("PORT"),
+        "HOST": os.getenv("DATABASES_HOST"),
+        "PORT": os.getenv("DATABASES_PORT"),
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -158,6 +155,5 @@ if CACHE_ENABLED:
             "LOCATION": os.getenv("CACHES_LOCATION"),
         }
     }
-
 
 CRONJOBS = [("* * * * *", "mailing.cron.send_mailing_scheduled")]
